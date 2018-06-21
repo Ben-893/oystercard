@@ -10,18 +10,16 @@ describe Journey do
 
   it { is_expected.to respond_to(:fare) }
 
-  it { is_expected.to respond_to(:bad_journey?) }
-
   describe '#initialize' do
-    it 'initializes with an empty history hash' do
-      expect(subject.history).to eq({})
+    it 'initializes with an empty history array' do
+      expect(subject.history).to eq([])
     end
   end
 
   describe '#start' do
-    it 'stores the entry station in the history hash' do
+    it 'stores the entry station in the history array' do
       subject.start("Oxford St")
-      expect(subject.history).to eq "Oxford St" => nil
+      expect(subject.history).to eq [:entry => "Oxford St"]
     end
     it 'sets the entry_station as an instance variable' do
       subject.start("Oxford St")
@@ -33,7 +31,7 @@ describe Journey do
     it 'stores the exit station in the history hash' do
       subject.start("Oxford St")
       subject.finish("Notting Hill")
-      expect(subject.history).to eq "Oxford St" => "Notting Hill"
+      expect(subject.history).to eq [:entry => "Oxford St", :exit => "Notting Hill"]
     end
   end
 

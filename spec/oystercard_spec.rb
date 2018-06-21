@@ -43,13 +43,6 @@ describe Oystercard do
   end
 
   describe '#touch_out' do
-    it 'Changes entry_station to nil' do
-      oystercard.instance_variable_set(:@balance, min)
-      oystercard.touch_in
-      oystercard.touch_out
-      expect(oystercard.entry_station).to eq nil
-    end
-
     it 'Deducts the minimum fare when #touch_out is called' do
       oystercard.instance_variable_set(:@balance, min)
       oystercard.touch_in
