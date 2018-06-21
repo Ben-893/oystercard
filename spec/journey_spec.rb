@@ -6,8 +6,6 @@ describe Journey do
 
   it { is_expected.to respond_to(:finish).with(1).argument }
 
-  it { is_expected.to respond_to(:complete?) }
-
   it { is_expected.to respond_to(:fare) }
 
   describe '#initialize' do
@@ -19,11 +17,7 @@ describe Journey do
   describe '#start' do
     it 'stores the entry station in the history array' do
       subject.start("Oxford St")
-      expect(subject.history).to eq [:entry => "Oxford St"]
-    end
-    it 'sets the entry_station as an instance variable' do
-      subject.start("Oxford St")
-      expect(subject.entry_station).to eq "Oxford St"
+      expect(subject.current_journey[:entry]).to eq "Oxford St"
     end
   end
 
@@ -35,28 +29,20 @@ describe Journey do
     end
   end
 
-  describe '#complete?' do
-    it 'changes #complete? to false' do
-      subject.start('Oxford St')
-      expect(subject).not_to be_complete
+  describe '#fare' do
+    it 'Returns minimum fare upon journey completion' do
+      subject.start("Oxford St")
+      subject.finish("Notting Hill")
+      expect(subject.fare).to eq described_class::MIN_FARE
     end
-
-    it 'changes #complete? to true' do
-      subject.start('Oxford St')
-      subject.finish('Notting Hill')
-      expect(subject).to be_complete
+    it 'Returns penalty fare when there is no journey start' do
+      subject.finish("Notting Hill")
+      expect(subject.fare).to eq described_class::PENALTY_FARE
+    end
+    it 'Returns penalty fare when there is no journey end' do
+      subject.start("Oxford St")
+      expect(subject.fare).to eq described_class::PENALTY_FARE
     end
   end
-
-  # describe '#bad_journey?' do
-  #   it 'returns true if there is no exit station' do
-  #     subject.start('Oxford St')
-  #     expect(subject).to be_bad_journey
-  #   end
-  # end
-
-
-
-
 
 end

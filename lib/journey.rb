@@ -1,26 +1,31 @@
 class Journey
 
-  attr_reader :history, :entry_station
+  MIN_FARE = 1
+  PENALTY_FARE = 6
+  attr_reader :history, :current_journey
 
   def initialize
     @history = []
+    @current_journey = {}
   end
 
   def start(entry_station)
-    @history << { entry: entry_station }
-    @entry_station = entry_station
+    @current_journey[:entry] = entry_station
   end
 
   def finish(exit_station)
-    @history.last[:exit] = exit_station
-    @entry_station = nil
+    @current_journey[:exit] = exit_station
+    @history << @current_journey
   end
 
   def fare
-    # penaltiy fare if touchout but no touchin and touchin twice.
+    incomplete_journey? ? PENALTY_FARE : MIN_FARE
   end
 
-  def complete?
-    !entry_station
+  private
+
+  def incomplete_journey?
+    @current_journey[:entry].nil? || @current_journey[:exit].nil?
   end
+
 end
