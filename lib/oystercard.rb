@@ -1,5 +1,7 @@
 class Oystercard
+
   attr_reader :balance, :journeys
+
   MAX_BALANCE = 90
   MIN_BALANCE = Journey::MIN_FARE
 
